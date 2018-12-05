@@ -1,0 +1,288 @@
+#include<iostream>
+using namespace std;
+
+int ccount = 0;
+
+struct cnode
+{
+	int real;
+	int imaginary;
+	cnode * next;
+};
+
+class clinkedlist
+{
+private:
+	cnode * chead;
+	cnode * ctail;
+
+public:
+	clinkedlist()
+	{
+		chead = NULL;
+		ctail = NULL;
+	}
+
+	void printclinkedlist()
+	{
+		cnode * printtemp = chead;
+		cout << endl << "Linked List :" << endl;
+
+		while (printtemp != NULL)
+		{
+			cout << printtemp->real << " + ";
+			cout << printtemp->imaginary << "i    ";
+			printtemp = printtemp->next;
+		}
+
+		cout << endl;
+	}
+
+	int realreturn(int pos)
+	{
+		cnode * temp = chead;
+		int x = 1;
+		while (x < pos)
+		{
+			temp = temp->next;
+			x++;
+		}
+
+		return temp->real;
+	}
+
+	int imaginaryreturn(int pos)
+	{
+		cnode * temp = chead;
+		int x = 1;
+		while (x < pos)
+		{
+			temp = temp->next;
+			x++;
+		}
+
+		return temp->imaginary;
+	}
+
+
+	void startinsert(int real, int imaginary)
+	{
+		cnode * starttemp = new cnode;
+		starttemp->real = real;
+		starttemp->imaginary = imaginary;
+		starttemp->next = chead;
+		chead = starttemp;
+
+		if (ccount == 0)
+		{
+			ctail = chead;
+			ctail->next = NULL;
+			ccount++;
+		}
+
+	}
+
+
+	void endinsert(int real, int imaginary)
+	{
+		cnode * endtemp = new cnode;
+		endtemp->real = real;
+		endtemp->imaginary = imaginary;
+		ctail->next = endtemp;
+		ctail = endtemp;
+		ctail->next = NULL;
+	}
+
+	void positiondelete(int pos)
+	{
+		cnode * temp = new cnode;
+		cnode * del = chead;
+		int x = 1;
+		while (x < pos)
+		{
+			temp = del;
+			del = del->next;
+			x++;
+		}
+
+		temp->next = del->next;
+		delete del;
+		if (temp->next == NULL)
+		{
+			ctail = temp;
+		}
+	}
+
+
+
+
+
+
+};
+
+
+
+class complexnumber
+{
+private:
+	int real;
+	int imaginary;
+
+public:
+	complexnumber()
+	{
+		real = 0;
+		imaginary = 0;
+	}
+
+	complexnumber(int rr, int ii)
+	{
+		real = rr;
+		imaginary = ii;
+	}
+
+	void printri()
+	{
+		cout << real << "     " << imaginary << endl;
+	}
+
+	complexnumber operator+(complexnumber c)
+	{
+		complexnumber Add;
+		Add.real = real + c.real;
+		Add.imaginary = imaginary + c.imaginary;
+		return Add;
+	}
+
+
+	complexnumber operator-(complexnumber c)
+	{
+		complexnumber Sub;
+		Sub.real = real - c.real;
+		Sub.imaginary = imaginary - c.imaginary;
+		return Sub;
+	}
+
+
+	complexnumber operator*(complexnumber c)
+	{
+		complexnumber Mult;
+		Mult.real = real*c.real - imaginary*c.imaginary;
+		Mult.imaginary = real*c.imaginary - c.real*imaginary;
+		return Mult;
+	}
+
+
+	complexnumber operator/(complexnumber c)
+	{
+		complexnumber Div;
+		Div.real = (real*c.real + imaginary*c.imaginary) / (c.real*c.real + c.imaginary*c.imaginary);
+		Div.imaginary = (imaginary*c.real + real*c.imaginary) / (c.real*c.real + c.imaginary*c.imaginary);
+		return Div;
+	}
+
+
+	int return_r()
+	{
+		return real;
+	}
+
+
+	int return_i()
+	{
+		return imaginary;
+	}
+
+};
+
+void main()
+{
+	
+	int r1, r2, i1, i2;
+
+	
+	clinkedlist pa;
+	
+	pa.startinsert(4, 5);
+
+	
+	pa.endinsert(3, -3);
+
+	pa.endinsert(4, 3);
+
+	pa.printclinkedlist();
+
+	
+	pa.positiondelete(3);
+
+	pa.printclinkedlist();
+
+	int num1, num2;
+
+
+
+
+	cout << "Enter  Position of Complex Number for addition";
+	
+	num1 = 1; num2 = 2;
+	r1 = pa.realreturn(num1);  i1 = pa.imaginaryreturn(num1);
+	r2 = pa.realreturn(num2); i2 = pa.imaginaryreturn(num2);
+	complexnumber an1(r1, i1), an2(r2, i2);
+	complexnumber as1 = an1 + an2;
+	as1.printri();
+	pa.endinsert(as1.return_r(), as1.return_i());
+
+	pa.printclinkedlist();
+
+
+
+
+
+	cout << "Enter  Position of Complex Number for Subtraction";
+	
+	num1 = 1; num2 = 3;
+	r1 = pa.realreturn(num1);  i1 = pa.imaginaryreturn(num1);
+	r2 = pa.realreturn(num2); i2 = pa.imaginaryreturn(num2);
+	complexnumber sn1(r1, i1), sn2(r2, i2);
+	complexnumber ss1 = sn1 - sn2;
+	ss1.printri();
+	pa.endinsert(ss1.return_r(), ss1.return_i());
+
+	pa.printclinkedlist();
+
+
+
+	cout << "Enter  Position of Complex Number for Multiplication";
+	
+	num1 = 2; num2 = 3;
+	r1 = pa.realreturn(num1);  i1 = pa.imaginaryreturn(num1);
+	r2 = pa.realreturn(num2); i2 = pa.imaginaryreturn(num2);
+	complexnumber mn1(r1, i1), mn2(r2, i2);
+	complexnumber ms1 = mn1 * mn2;
+	ms1.printri();
+	pa.endinsert(ms1.return_r(), ms1.return_i());
+
+	pa.printclinkedlist();
+
+
+
+	cout << "Enter  Position of Complex Number for Division";
+	
+	num1 = 1; num2 = 3;
+	r1 = pa.realreturn(num1);  i1 = pa.imaginaryreturn(num1);
+	r2 = pa.realreturn(num2); i2 = pa.imaginaryreturn(num2);
+	complexnumber dn1(r1, i1), dn2(r2, i2);
+	complexnumber ds1 = dn1 / dn2;
+	ds1.printri();
+	pa.endinsert(ds1.return_r(), ds1.return_i());
+
+	pa.printclinkedlist();
+
+
+
+
+	system("pause");
+
+
+
+}
